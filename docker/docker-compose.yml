@@ -1,0 +1,44 @@
+# docker/docker-compose.yml
+version: '3.8'
+
+services:
+  # 数据库服务
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # 后端服务（开发模式）
+  backend:
+    build: ../backend  # 根据 backend/Dockerfile 构建
+    ports:
+      - "4000:4000"
+    environment:
+      DB_HOST: db
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_NAME: mydb
+    depends_on:
+      - db
+    volumes:
+      - ../backend:/app  # 挂载代码，支持热重载
+      - /app/node_modules  # 避免覆盖容器内的 node_modules
+
+  # 前端服务（开发模式）
+  frontend:
+    build: ../frontend  # 根据 frontend/Dockerfile 构建
+    ports:
+      - "5173:5173"     # Vite 默认端口
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    command: npm run dev
+
+volumes:
+  postgres_data:
