@@ -51,8 +51,8 @@
 
 ### **四、数据库设计**
 #### **ER 图**
-![ER Diagram](https://i.imgur.com/5T2vX6d.png)  
-（实际需绘制，以下是文字描述）
+![deepseek_mermaid_20250517_d3ea33](https://github.com/user-attachments/assets/bf849296-162c-4659-82c4-b35d2f4f7a1f)
+
 
 #### **关键表结构**
 1. **用户表 `users`**
